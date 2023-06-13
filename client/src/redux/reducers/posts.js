@@ -6,11 +6,9 @@ import {
   DELETE,
 } from "../constant/actionType";
 
-export default (state = [], action) => {
-  debugger;
+const postReducer = (state = [], action) => {
   switch (action.type) {
     case CREATE:
-      debugger;
       return [...state, action.payload];
     case FETCH_ALL:
       return action.payload;
@@ -25,3 +23,5 @@ export default (state = [], action) => {
       return state;
   }
 };
+
+export default postReducer;

@@ -5,12 +5,13 @@ const postSchema = mongoose.Schema({
   // have to have this things
   title: String,
   message: String,
+  name: String,
   creator: String,
   tags: [String],
   selectedFile: String,
-  likeCount: {
-    type: Number,
-    default: 0,
+  likes: {
+    type: [String], //to tract like by which id
+    default: [],
   },
   createdAt: {
     type: Date,

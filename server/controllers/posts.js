@@ -17,7 +17,11 @@ export const createPost = async (req, res) => {
   //req coming from front end
   const post = req.body;
 
-  const newPost = new PostMessage(post);
+  const newPost = new PostMessage({
+    ...post,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
+  });
   try {
     await newPost.save();
 
@@ -60,15 +64,28 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
+  console.log(req);
+  if (!req.userId) return res.json({ message: "Unauthenticate Action" });
+
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).send("No post with this Id");
 
   const post = await PostMessage.findById(id);
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    id,
-    { likeCount: post.likeCount + 1 },
-    { new: true }
-  );
+
+  // check whether this id already like post or not
+  const index = post.likes.findIndex((id) => id === String(req.userId));
+
+  if (index === -1) {
+    //like functionality
+    post.likes.push(req.userId);
+  } else {
+    // dislike functionality
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
 
   res.json(updatedPost);
 };

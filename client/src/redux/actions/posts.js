@@ -1,4 +1,4 @@
-import * as api from "../../api";
+import * as api from "../../api/index";
 import {
   CREATE,
   UPDATE,
@@ -16,7 +16,7 @@ export const getPosts = () => async (dispatch) => {
     const action = { type: FETCH_ALL, payload: data }; //data is data in which all post are stored
     dispatch(action);
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data);
   }
 };
 
@@ -26,7 +26,7 @@ export const createPost = (post) => async (dispatch) => {
 
     dispatch({ type: CREATE, payload: data });
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data);
   }
 };
 
@@ -36,28 +36,26 @@ export const updatePost = (id, post) => async (dispatch) => {
 
     dispatch({ type: UPDATE, payload: data });
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data);
   }
 };
 
 export const deletePost = (id) => async (dispatch) => {
   try {
-    debugger;
     await api.deletePost(id);
 
     dispatch({ type: DELETE, payload: id });
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data);
   }
 };
 
 export const likePost = (id) => async (dispatch) => {
   try {
-    debugger;
     const { data } = await api.likePost(id);
 
     dispatch({ type: LIKE, payload: data });
   } catch (error) {
-    console.log(error);
+    console.log(error.response.data);
   }
 };
