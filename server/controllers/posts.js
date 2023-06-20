@@ -2,12 +2,40 @@
 import mongoose from "mongoose";
 import PostMessage from "../models/postMessage.js";
 
-export const getPost = async (req, res) => {
+export const getPosts = async (req, res) => {
+  const { page } = req.query;
   try {
-    //find will take time to complete that's why async await func
-    const postMessages = await PostMessage.find();
+    const LIMIT = 6;
+    const startIndex = (Number(page) - 1) * LIMIT;
+    const total = await PostMessage.countDocuments({});
 
-    return res.status(200).json(postMessages);
+    //find will take time to complete that's why async await func
+    //sort({_id:-1}): new post come first
+    const posts = await PostMessage.find()
+      .sort({ _id: -1 })
+      .limit(LIMIT)
+      .skip(startIndex);
+
+    return res.status(200).json({
+      data: posts,
+      currentPage: Number(page),
+      totalPage: Math.ceil(total / LIMIT),
+    });
+  } catch (error) {
+    return res.status(404).json({ message: error.message });
+  }
+};
+
+export const getPostBySearch = async (req, res) => {
+  const { searchQuery, tags } = req.query;
+  try {
+    const title = new RegExp(searchQuery, "i"); //i for case insencetive
+
+    const post = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+
+    return res.status(200).json({ data: post });
   } catch (error) {
     return res.status(404).json({ message: error.message });
   }
@@ -64,7 +92,6 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
   const { id } = req.params;
 
-  console.log(req);
   if (!req.userId) return res.json({ message: "Unauthenticate Action" });
 
   if (!mongoose.Types.ObjectId.isValid(id))
