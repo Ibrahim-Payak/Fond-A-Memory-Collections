@@ -26,7 +26,7 @@ app.get("/", (req, res) => res.send("This is Fond API"));
 const CON_URL = process.env.CON_URL;
 
 const CONNECTION_URL = `${CON_URL}`;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(CONNECTION_URL)
