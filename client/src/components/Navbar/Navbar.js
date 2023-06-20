@@ -24,7 +24,6 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    debugger;
     const token = user?.token;
 
     if (token) {

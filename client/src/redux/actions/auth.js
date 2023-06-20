@@ -6,8 +6,6 @@ import { toast } from "react-toastify";
 //redux thunk
 export const signUp = (formData, history) => async (dispatch) => {
   try {
-    debugger;
-
     const { data } = await api.signUp(formData);
     dispatch({ type: AUTH, data });
     history.push("/");
@@ -20,7 +18,6 @@ export const signUp = (formData, history) => async (dispatch) => {
 
 export const signIn = (formData, history) => async (dispatch) => {
   try {
-    debugger;
     const { data } = await api.signIn(formData);
     dispatch({ type: AUTH, data });
     history.push("/");

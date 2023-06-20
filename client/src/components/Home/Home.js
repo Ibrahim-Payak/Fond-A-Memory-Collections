@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Grow,
@@ -13,7 +13,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import ChipInput from "material-ui-chip-input";
 
 import useStyles from "./style";
-import { getPosts, getPostBySearch } from "../../redux/actions/posts";
+import { getPostBySearch } from "../../redux/actions/posts";
 import Posts from "../Posts/Posts";
 import Form from "../Form/Form";
 import Page from "../Pagination/Pagination";
@@ -32,7 +32,7 @@ const Home = () => {
   const [tags, setTags] = useState([]);
 
   const page = query.get("page") || 1;
-  const searchQuery = query.get("searchquery");
+  // const searchQuery = query.get("searchquery");
 
   const handleKeyPress = (e) => {
     if (e.keyCode === 13) {
@@ -52,7 +52,6 @@ const Home = () => {
       history.push(
         `/posts/search?searchQuery=${search || "none"}&tags=${tags.join(",")}`
       );
-      debugger;
     } else {
       history.push("/");
     }

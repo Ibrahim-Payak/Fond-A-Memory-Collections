@@ -27,7 +27,6 @@ const postReducer = (state = { isLoading: true, posts: [] }, action) => {
       };
     case UPDATE:
     case LIKE:
-      debugger;
       return {
         ...state,
         posts: state.posts.map((post) =>

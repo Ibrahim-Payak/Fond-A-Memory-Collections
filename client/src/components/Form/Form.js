@@ -27,7 +27,6 @@ const Form = ({ currentId, setCurrentId }) => {
   }, [post]);
 
   const handleSubmit = async (event) => {
-    debugger;
     event.preventDefault();
     if (currentId === 0) {
       dispatch(createPost({ ...postData, name: user?.result?.name }));

@@ -23,9 +23,10 @@ app.use("/posts", postRoutes);
 app.get("/", (req, res) => res.send("This is Fond API"));
 
 //include in .env file to upload this code in public (since it's consist of username & pwd)
-const CONNECTION_URL =
-  "mongodb+srv://Itsibu:Ibu4123@cluster0.z9rbx2w.mongodb.net/";
-const PORT = process.env.PORT || 5000;
+const CON_URL = process.env.CON_URL;
+
+const CONNECTION_URL = `${CON_URL}`;
+const PORT = process.env.PORT;
 
 mongoose
   .connect(CONNECTION_URL)

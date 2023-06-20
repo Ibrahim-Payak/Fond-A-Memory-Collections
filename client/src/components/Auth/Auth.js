@@ -36,7 +36,6 @@ const Auth = () => {
   const history = useHistory();
 
   const handleSubmit = (e) => {
-    debugger;
     e.preventDefault();
 
     if (isSignUp) {
