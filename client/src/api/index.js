@@ -1,10 +1,9 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://fond.onrender.com" });
 
-const baseUrl = "http://localhost:5000/posts"; //this url contains our all posts
-
-const userUrl = "http://localhost:5000/users";
+//const baseUrl = "https://fond.onrender.com/posts"; this url contains all our posts
+// const userUrl = "https://fond.onrender.com/users"; for signup & signin
 
 //sending token to backend
 API.interceptors.request.use((req) => {
@@ -17,22 +16,22 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-export const fetchPosts = (page) => API.get(`${baseUrl}?page=${page}`);
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const fetchPostBySearch = (searchQuery) =>
   API.get(
-    `${baseUrl}/search?searchQuery=${searchQuery.search || "none"}&tags=${
+    `/posts/search?searchQuery=${searchQuery.search || "none"}&tags=${
       searchQuery.tags
     }`
   );
 
-export const createPost = (newPost) => API.post(baseUrl, newPost);
+export const createPost = (newPost) => API.post("/posts", newPost);
 
 export const updatePost = (id, updatedPost) =>
-  API.patch(`${baseUrl}/${id}`, updatedPost);
+  API.patch(`/posts/${id}`, updatedPost);
 
-export const deletePost = (id) => API.delete(`${baseUrl}/${id}`);
+export const deletePost = (id) => API.delete(`/posts/${id}`);
 
-export const likePost = (id) => API.patch(`${baseUrl}/${id}/likePost`);
+export const likePost = (id) => API.patch(`/posts/${id}/likePost`);
 
-export const signIn = (formData) => API.post(`${userUrl}/signin`, formData);
-export const signUp = (formData) => API.post(`${userUrl}/signup`, formData);
+export const signIn = (formData) => API.post("/users/signin", formData);
+export const signUp = (formData) => API.post("/users/signup", formData);
